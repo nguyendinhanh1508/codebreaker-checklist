@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from bs4 import BeautifulSoup
+import json
 
 def fetch_all_problems():
     url = "https://codebreaker.xyz/problems"
@@ -11,9 +12,9 @@ def fetch_all_problems():
         problem_name = link.text.strip()
         if problem_name:
             problem_names.append(problem_name)
-    with open('problems.txt', 'w') as f:
-        for problem in problem_names:
-            f.write(f"{problem}\n")
+    problem_names.sort()
+    with open('sorted_problems.json', 'w') as f:
+        json.dump(problem_names, f)
     return problem_names
 
 fetch_all_problems()
